@@ -51,6 +51,9 @@ export default function StarRating({
 }
 
 function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
+  const starStyle = {
+    display: "flex",
+  };
   return (
     <span
       role="button"
