@@ -33,7 +33,9 @@ export default function App() {
   }
 
   function handleCloseMovie() {}
-  function handleAddWatched(movie) {}
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+  }
 
   function handleDeleteWatched(id) {}
 
@@ -53,11 +55,14 @@ export default function App() {
         </Box>
         <Box>
           {selectedId ? (
-            <MovieDetails selectedId={selectedId} />
+            <MovieDetails
+              selectedId={selectedId}
+              onAddWatched={handleAddWatched}
+            />
           ) : (
             <>
-              <WatchedMovie />
-              <WatchedMoviesList />
+              <WatchedMovie watched={watched} />
+              <WatchedMoviesList watched={watched} />
             </>
           )}
         </Box>

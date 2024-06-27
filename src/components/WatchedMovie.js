@@ -1,6 +1,6 @@
 import React from "react";
 
-function WatchedMovie() {
+function WatchedMovie({ watched }) {
   return <div>WatchedMovie</div>;
 }
 
