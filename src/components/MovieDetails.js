@@ -3,7 +3,7 @@ import Loader from "./Loader";
 import StarRating from "./StarRating";
 import WatchedMovie from "./WatchedMovie";
 
-function MovieDetails({ selectedId, onAddWatched, watched }) {
+function MovieDetails({ selectedId, onAddWatched, watched, onCloseMovie }) {
   const KEY = "e68aaade";
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +22,8 @@ function MovieDetails({ selectedId, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
-  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
-  const watchedRating = watched.find(
+  const isWatched = watched?.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedRating = watched?.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
 
@@ -32,7 +32,8 @@ function MovieDetails({ selectedId, onAddWatched, watched }) {
       imdbID: selectedId,
       title,
       poster,
-      imdbRating,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
       userRating,
     };
     onAddWatched(newWatchedMovie);
@@ -41,16 +42,11 @@ function MovieDetails({ selectedId, onAddWatched, watched }) {
   useEffect(() => {
     async function getMovieDetail() {
       setIsLoading(true);
-      try {
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
-        );
-
-        const data = await res.json();
-        // if (data.Response === "False") throw new Error(`${data.Error}`);
-        console.log("data", data);
-        setMovie(data);
-      } catch (error) {}
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+      );
+      const data = await res.json();
+      setMovie(data);
       setIsLoading(false);
     }
     getMovieDetail();
@@ -63,7 +59,9 @@ function MovieDetails({ selectedId, onAddWatched, watched }) {
       ) : (
         <>
           <header>
-            <button className="btn-back">&larr;</button>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
             <img src={poster} alt={poster} />
             <div className="details-overview">
               <h2>{title}</h2>
@@ -82,7 +80,7 @@ function MovieDetails({ selectedId, onAddWatched, watched }) {
           <section>
             <div className="rating">
               {!isWatched ? (
-                <div>
+                <>
                   <StarRating
                     maxRating={10}
                     size={24}
@@ -93,7 +91,7 @@ function MovieDetails({ selectedId, onAddWatched, watched }) {
                       Add Watched Movie
                     </button>
                   )}
-                </div>
+                </>
               ) : (
                 <p>
                   you rated with movie {watchedRating} <span>⭐️</span>

@@ -1,7 +1,12 @@
 import React from "react";
 
-function WatchedMovie({ watched }) {
-  return <div>WatchedMovie</div>;
+function WatchedMovie({ movie }) {
+  console.log("movie", movie);
+  return (
+    <li>
+      <img src={movie.poster} />
+    </li>
+  );
 }
 
 export default WatchedMovie;

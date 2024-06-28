@@ -27,12 +27,14 @@ export default function App() {
   const { movies, isLoading, error } = useMovies(query);
 
   const [watched, setWatched] = useLocalStorageState([], "watched");
-
+  console.log(watched);
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
   }
 
-  function handleCloseMovie() {}
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
   }
@@ -58,10 +60,11 @@ export default function App() {
             <MovieDetails
               selectedId={selectedId}
               onAddWatched={handleAddWatched}
+              onCloseMovie={handleCloseMovie}
+              watched={watched}
             />
           ) : (
             <>
-              <WatchedMovie watched={watched} />
               <WatchedMoviesList watched={watched} />
             </>
           )}
