@@ -52,6 +52,11 @@ function MovieDetails({ selectedId, onAddWatched, watched, onCloseMovie }) {
     getMovieDetail();
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Moive | ${title}`;
+    return () => (document.title = "usePopcorn");
+  }, [title]);
   return (
     <div className="details">
       {isLoading ? (
