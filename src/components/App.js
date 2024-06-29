@@ -15,6 +15,7 @@ import WatchedMovie from "./WatchedMovie";
 import Search from "./Search";
 import NumResults from "./NumResults";
 import MovieDetails from "./MovieDetails";
+import WatchedSummary from "./WatchedSummary";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -36,10 +37,14 @@ export default function App() {
     setSelectedId(null);
   }
   function handleAddWatched(movie) {
+    console.log("movie", movie);
+    console.log("watched", watched);
     setWatched((watched) => [...watched, movie]);
   }
 
-  function handleDeleteWatched(id) {}
+  function handleDeleteWatched(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  }
 
   console.log(selectedId);
 
@@ -65,7 +70,11 @@ export default function App() {
             />
           ) : (
             <>
-              <WatchedMoviesList watched={watched} />
+              <WatchedSummary watched={watched} />
+              <WatchedMoviesList
+                watched={watched}
+                onDelete={handleDeleteWatched}
+              />
             </>
           )}
         </Box>
