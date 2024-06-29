@@ -92,7 +92,7 @@ function MovieDetails({ selectedId, onAddWatched, watched, onCloseMovie }) {
                     onRating={setUserRating}
                   />
                   {userRating > 0 && (
-                    <button onClick={handleAddWatchedMovie}>
+                    <button className="btn-add" onClick={handleAddWatchedMovie}>
                       Add Watched Movie
                     </button>
                   )}
